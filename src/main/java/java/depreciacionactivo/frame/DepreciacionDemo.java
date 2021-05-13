@@ -15,17 +15,18 @@ import javax.swing.table.DefaultTableModel;
  * @author Carlos B
  */
 public class DepreciacionDemo extends javax.swing.JFrame {
-    private DefaultTableModel deftable = new DefaultTableModel();
+    private DefaultTableModel deftable;
     private Activo activo;
     private ArrayList lista;
     
     public DepreciacionDemo() {
         initComponents();
-        JTable table = new JTable(deftable);
+        deftable = new DefaultTableModel();
         deftable.addColumn("Nombre");
         for(int i=1; i<21;i++){
             deftable.addColumn("%d"+i);
         }
+        this.tblActivos.setModel(deftable);
         
     }
 
@@ -222,14 +223,24 @@ public class DepreciacionDemo extends javax.swing.JFrame {
         
         deftable.addColumn(activo.getNombre());
         
-        Calculos(lista);
+        Calculos(tipo,valor, valorSalv);
     }//GEN-LAST:event_btnCalcularActionPerformed
 
-    private void Calculos(ArrayList lista){
-        if(cmbtipo.getSelectedItem().toString().equals("Edificio")){
-            tblActivos.getSelectedRow();
+    private float[] Calculos(String tipo, float v,float vsalv){
+        float[] lista=null;
+        int anios;
+        if (tipo.equalsIgnoreCase("Edificio")){//vehculo 5, maquinaria 8, mobiliario 2, equipo de ofic 1
+           anios = 20; 
+           lista= new float[anios];
+           int suma=0;
+            for (int i = 0; i < anios; i++) {
+                suma+=i;
+                float factor=(float)(anios-1)/suma;
+                lista[i]=factor*v;
+            }
         }
-            
+     
+        return lista;
     }
     /**
      * @param args the command line arguments
